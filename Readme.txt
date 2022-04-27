@@ -18,6 +18,56 @@ ReactDOM.render(<div><MainContent /></div>,document.getElementById("root"));
 npx create-react-app@latest {project name}
 cd {project name}
 npm start
+-------------------------------------------------------------------------------------------------------------------------------
+CSS:
+padding: 30px 25px;   top-bottom:30px, left-right padding:25px    这个不能用在主页面上，要不布局不齐
+justify-content: space-between;
+align-items: center;
+font-weight: 600; 字体粗细
+font-size: 22px; 字体大小
+letter-spacing: -0.05em; 修改字体中间的距离
+line-height: 19px; 修改字体高度
+padding-block: 10px; 修改行之间的距离
+max-width: 400px;   字段最大宽度
+max-width: 100px;   解决图片最大宽度
+<p><span className="bold">From $136</span> / person</p>   部分文字变成粗体 .bold{ font-weight: bold;}
+https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
+
+2个buttons 水平居中，放在总classname里面
+  display: flex;
+  justify-content: space-between; or center
+
+set background picture:
+main{
+background-image: url(./images/reactjs-icon.png);
+background-repeat: no-repeat;
+background-position: right 50%;
+background-size: cover;     背景图片占满整个容器
+body {
+  background: #282d35;
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Html:
+<hr /> 换行
+
+-------------------------------------------------------------------------------------------------------------------------------
+JSX：
+{Javascript}
+{props.setup && <h3>Setup: {props.setup}</h3>}                                      // 如果存在setup，然后才显示setup
+ <h3 style={{display: props.setup ? "block" : "none"}}>Setup: {props.setup}</h3>    // 如果存在setup，然后才显示setup
+src={`../images/${props.img}`}      
+
+Get data from hard writing:
+Props input: <Contact img="./images/pumpkin.png"/>
+Props output: export default function Contact(props) {return ( <img src={props.img}/>)}
+
+Get data from file:
+Props input: 
+    import jokesData from "./jokesData"
+    export default function App() {
+    const jokeElements = jokesData.map(joke => {return <Joke setup={joke.setup} punchline="joke.punchline" /> })
+Props output:   <div>{jokeElements}</div>
 ------------------------------------------------------------------------------------------------------------------------------
 Program1:
 ------------------------------------------------------------------------------------------------------------------------------
@@ -333,33 +383,6 @@ https://fonts.google.com/
 CSS style:
 https://developer.mozilla.org/en-US/docs/Web/CSS/::marker
 -------------------------------------------------------------------------------------------------------------------------------
-CSS:
-padding: 30px 25px;   top-bottom:30px, left-right padding:25px    这个不能用在主页面上，要不布局不齐
-justify-content: space-between;
-align-items: center;
-font-weight: 600; 字体粗细
-font-size: 22px; 字体大小
-letter-spacing: -0.05em; 修改字体中间的距离
-line-height: 19px; 修改字体高度
-padding-block: 10px; 修改行之间的距离
-max-width: 400px;   字段最大宽度
-https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
-
-2个buttons 水平居中，放在总classname里面
-  display: flex;
-  justify-content: space-between; or center
-
-set background picture:
-main{
-background-image: url(./images/reactjs-icon.png);
-background-repeat: no-repeat;
-background-position: right 50%;
-background-size: cover;     背景图片占满整个容器
-body {
-  background: #282d35;
-}
-
--------------------------------------------------------------------------------------------------------------------------------
 start a new program app2
 npx create-react-app@latest app2
 cd app2
@@ -369,7 +392,234 @@ detele docs in /src and
 add folders: components(里面的文件名必须大写开头), images
 add files: App.css, App.js, index.js
 -------------------------------------------------------------------------------------------------------------------------------
+Git:
+git init
+git remote add origin url
+git remote add master url
+git pull
+git —version
+Git stash
+git clone url
+git branch -M master 
+git checkout master
+git remote remove origin //delete existed .git
 
+git add .
+git commit -m 'your message'
+git push 
+-------------------------------------------------------------------------------------------------------------------------------
+2. Data driven React:
+props
+creating omponents from an array
+
+import React from "react"
+import ReactDOM from "react-dom"
+
+function App() {
+    const date = new Date()     //logic part
+    const hours = date.getHours()
+    let timeOfDay
+    
+    if (hours < 12) {
+        timeOfDay = "morning"
+    } else if (hours >= 12 && hours < 17) {
+        timeOfDay = "afternoon"
+    } else {
+        timeOfDay = "night"
+    }                          //logic part
+    
+    return (
+        <h1>Good {timeOfDay}!</h1>   //display part     it is JSX: <h1>Good {timeOfDay}!</h1>  inside{}is JavaScript
+    )
+}
+
+HTML:
+<input placeholder="First Name" />                => input 
+<input placeholder="First Name" type="submit" />  => bottom 
+<input placeholder="First Name" type="radio" />   => checkbox
+-------------------------------------------------------------------------------------------------------------------------------
+props:
+import React from "react"
+import Contact from "./Contact"
+
+export default function App() {
+    return (
+        <div className="contacts">
+            <Contact 
+                img="./images/mr-whiskerson.png" 
+                name="Mr. Whiskerson"
+                phone="(212) 555-1234"
+                email="mr.whiskaz@catnap.meow"
+            />
+            <Contact 
+                img="./images/fluffykins.png"
+                name="Fluffykins"
+                phone="(212) 555-2345"
+                email="fluff@me.com"
+            />
+            <Contact 
+                img="./images/felix.png"
+                name="Felix"
+                phone="(212) 555-4567"
+                email="thecat@hotmail.com"
+            />
+            <Contact 
+                img="./images/pumpkin.png"
+                name="Pumpkin"
+                phone="(0800) CAT KING"
+                email="pumpkin@scrimba.com"
+            />
+        </div>
+    )
+}
+
+
+
+import React from "react"
+export default function Contact(props) {
+    /**
+     * Challenge: Fix the code below to use the `props`
+     * object values in place of the hardcoded values below
+     */
+    return (
+        <div className="contact-card">
+            <img src={props.img}/>
+            <h3>{props.name}</h3>
+            <div className="info-group">
+                <img src="./images/phone-icon.png" />
+                <p>{props.phone}</p>
+            </div>
+            <div className="info-group">
+                <img src="./images/mail-icon.png" />
+                <p>{props.email}</p>
+            </div>
+        </div>
+    )
+}
+
+/* 
+{
+    img: "./images/mr-whiskerson.png", 
+    name: "Mr. Whiskerson", 
+    phone: "(212) 555-1234", 
+    email: "mr.whiskaz@catnap.meow"
+}
+
+*/
+-------------------------------------------------------------------------------------------------------------------------------
+Quiz:
+1. What do props help us accomplish?
+Make a component more reusable.
+
+
+2. How do you pass a prop into a component?
+<MyAwesomeHeader title="???" />
+
+
+3. Can I pass a custom prop (e.g. `blahblahblah={true}`) to a native
+   DOM element? (e.g. <div blahblahblah={true}>) Why or why not?
+No, because the JSX we use to describe native DOM elements will
+be turned into REAL DOM elements by React. And real DOM elements
+only have the properties/attributes specified in the HTML specification.
+(Which doesn't include properties like `blahblahblah`)
+
+
+4. How do I receive props in a component?
+function Navbar(props) {
+    console.log(props.blahblahblah)
+    return (
+        <header>
+            ...
+        </header>
+    )
+}
+
+
+5. What data type is `props` when the component receives it?
+An object!
+-------------------------------------------------------------------------------------------------------------------------------
+export default function Contact({img, name, phone, email}) {
+    return (
+        <div className="contact-card">
+            <img src={img}/>
+            <h3>{name}</h3>
+            <div className="info-group">
+                <img src="./images/phone-icon.png" />
+                <p>{phone}</p>
+            </div>
+            <div className="info-group">
+                <img src="./images/mail-icon.png" />
+                <p>{email}</p>
+            </div>
+        </div>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Props: passing in non-string props
+ Bool:           isPun={true}
+ number:         upvotes={10}
+ list:           comments={[{author: "", body: "", title: ""}, {...}]}
+-------------------------------------------------------------------------------------------------------------------------------
+map()
+
+const squares = nums.map(function(num) {
+    return num * num
+})
+
+const capitalized = names.map((name) => {
+    return name[0].toUpperCase() + name.slice(1)
+})
+
+const paragraphs = pokemon.map(mon => `<p>${mon}</p>`)
+
+const squares = nums.map( x => x * x)
+-------------------------------------------------------------------------------------------------------------------------------
+export default function App() {
+    const colors = [
+            <h3>Red</h3>, 
+            <h3>Orange</h3>, 
+            <h3>Yellow</h3>,
+            <h3>Green</h3>,
+            <h3>Blue</h3>,
+            <h3>Indigo</h3>,
+            <h3>Violet</h3>
+        ]
+    return (
+        <div>
+            {colors}
+        </div>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Map Quiz:
+1. What does the `.map()` array method do?
+Returns a new array. Whatever gets returned from the callback
+function provided is placed at the same index in the new array.
+Usually we take the items from the original array and modify them
+in some way.
+
+
+2. What do we usually use `.map()` for in React?
+Convert an array of raw data into an array of JSX elements
+that can be displayed on the page.
+
+
+3. Why is using `.map()` better than just creating the components
+   manually by typing them out?
+It makes our code more "self-sustaining" - not requiring
+additional changes whenever the data changes.
+
+for(let i = 0; i < someArray.length; i++) {
+    
+}
+-------------------------------------------------------------------------------------------------------------------------------
+If picture can't display, put images file into public file, pictures will show
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------

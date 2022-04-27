@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@300;600&family=Tapestry&display=swap");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+.gray {
+  color: #918e9b;
+}
+nav {
+  height: 70px;
+  display: flex;
+  padding: 20px 36px;
+  box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+}
+.card--stats {
+  display: flex;
+  align-items: center;
+}
+.words {
+  font-size: 12px;
+}
+nav > img {
+  max-width: 100px;
+}
+section {
+  padding: 15px 20px;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+}
+.main > img {
+  max-width: 100%;
+  align-self: center;
+}
+
+.main > h1 {
+  margin-bottom: 16px;
+}
+.main > p {
+  margin-top: 0;
+}
+
+.img1 {
+  width: 176px;
+  height: 235px;
+  /* left: 20px; */
+
+  background: url(./images/5.png);
+  border-radius: 9px;
+}
+
+.img2 {
+  position: absolute;
+  width: 61px;
+  height: 20px;
+  left: 25px;
+  top: 462px;
+
+  background: url(./images/4.png);
+  border-radius: 9px;
+}
+.img3 {
+  width: 85px;
+  height: 20px;
+  background: url(./images/3.png);
+  border-radius: 9px;
+}
+
+.p1 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 110%;
+  /* identical to box height, or 13px */
+  color: #222222;
+  margin: 0;
+}
+.p2 {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 110%;
+  /* identical to box height, or 13px */
+  color: #222222;
+  margin: 0;
+}
+.bold {
+  font-weight: bold;
+}

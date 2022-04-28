@@ -31,6 +31,7 @@ padding-block: 10px; 修改行之间的距离
 max-width: 400px;   字段最大宽度
 max-width: 100px;   解决图片最大宽度
 text-align: justify;  文本左右齐
+margin-right: auto;    文字自动靠右
 <p><span className="bold">From $136</span> / person</p>   部分文字变成粗体 .bold{ font-weight: bold;}
 https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
 
@@ -47,10 +48,14 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
   flex-direction: column;
 }
 
+  align-items: center;  //垂直居中
 
 2个buttons 水平居中，放在总classname里面
   display: flex;
   justify-content: space-between; or center
+
+ display: flex;            //水平居中
+ align-items: center;
 
 set background picture:
 main{
@@ -661,9 +666,40 @@ State
 Conditional rendering
 Forms
 Side effects
-
-
 -------------------------------------------------------------------------------------------------------------------------------
+Header CSS:
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Karla", sans-serif;
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    height: 65px;
+    background: linear-gradient(90deg, #672280 1.18%, #A626D3 100%);
+    color: white;
+    padding: 20px;
+}
+
+.header--image {
+    height: 100%;
+    margin-right: 6px;
+}
+
+.header--title {
+    font-size: 1.25rem;
+    margin-right: auto;
+}
+
+.header--project {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------

@@ -1,12 +1,19 @@
 import React from "react";
 
 export default function Footer(props) {
+  let badgeText;
+  if (props.openSpots === 0) {
+    badgeText = "SOLD OUT";
+  } else if (props.location === "Online") {
+    badgeText = "ONLINE";
+  }
   return (
     <section className="footer">
-      <img className="img1" />
-      <img className="img2" />
+      {badgeText && <div className="soldout">{badgeText}</div>}
+      <img className="img1" src={`../images/${props.coverImg}`} alt="" />
+      <img className="img2" alt="" />
       <div className="card--stats">
-        <img className="img3" />
+        <img className="img3" alt="" />
         <div className="words">
           <span>{props.rating}</span>
           <span className="gray">({props.reviewCount}) • </span>

@@ -30,8 +30,23 @@ line-height: 19px; 修改字体高度
 padding-block: 10px; 修改行之间的距离
 max-width: 400px;   字段最大宽度
 max-width: 100px;   解决图片最大宽度
+text-align: justify;  文本左右齐
 <p><span className="bold">From $136</span> / person</p>   部分文字变成粗体 .bold{ font-weight: bold;}
 https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
+
+<div className="Group">{DataElement}</div>          // 让模块并列排，可滑动
+.Group {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+}
+.整个模块{
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 
 2个buttons 水平居中，放在总classname里面
   display: flex;
@@ -68,6 +83,31 @@ Props input:
     export default function App() {
     const jokeElements = jokesData.map(joke => {return <Joke setup={joke.setup} punchline="joke.punchline" /> })
 Props output:   <div>{jokeElements}</div>
+
+{props.openSpots === 0 && <div className="soldout">SOLD OUT</div>}   //一样的意思
+{!props.openSpots && <div className="soldout">SOLD OUT</div>}         //一样的意思
+
+input:
+import Data from "./Data";
+export default function App() {
+  const DataElement = Data.map((x) => (
+    <Footer
+      key={x.id}
+      item={x}
+    />
+  ));
+output: src={`../images/${props.item.coverImg}`}
+
+input:
+import Data from "./Data";
+export default function App() {
+  const DataElement = Data.map((x) => (
+    <Footer
+      key={x.id}
+      {...x}
+    />
+  ));
+output: src={`../images/${props.coverImg}`}
 ------------------------------------------------------------------------------------------------------------------------------
 Program1:
 ------------------------------------------------------------------------------------------------------------------------------
@@ -615,6 +655,14 @@ for(let i = 0; i < someArray.length; i++) {
 -------------------------------------------------------------------------------------------------------------------------------
 If picture can't display, put images file into public file, pictures will show
 -------------------------------------------------------------------------------------------------------------------------------
+Dynamic web app:
+Event listeners
+State
+Conditional rendering
+Forms
+Side effects
+
+
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------

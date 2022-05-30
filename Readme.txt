@@ -32,6 +32,7 @@ max-width: 400px;   字段最大宽度
 max-width: 100px;   解决图片最大宽度
 text-align: justify;  文本左右齐
 margin-right: auto;    文字自动靠右
+text-indent: 5px;      文本前留空隙
 <p><span className="bold">From $136</span> / person</p>   部分文字变成粗体 .bold{ font-weight: bold;}
 https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
 
@@ -56,6 +57,18 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
 
  display: flex;            //水平居中
  align-items: center;
+
+ body {
+  min-height: 100vh; 
+  display: flex;          //水平 垂直居中
+  justify-content: center;       
+  align-items: center;
+}
+
+height: 100px;
+width: 100px;
+border: 1px solid black;    //square shape
+display: inline-block;      // display inline
 
 set background picture:
 main{
@@ -701,12 +714,763 @@ body {
     font-weight: 500;
 }
 -------------------------------------------------------------------------------------------------------------------------------
+Html + Css:
+
+    <main>
+      <form className="form">
+        <input type="text" placeholder="Top text" className="form--input" />
+        <input type="text" placeholder="Bottom text" className="form--input" />
+        <button className="form--button">Get a new meme image 🖼</button>
+      </form>
+    </main>
+
+.form {
+    display: grid;
+    grid-template: 40px 40px / 1fr 1fr;
+    gap: 17px;
+}
+.form--button {
+    grid-column: 1 / -1;   //width=100%
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Listener:
+https://reactjs.org/docs/events.html#mouse-events
+
+export default function App() {
+    function handleClick() {
+        console.log("I was clicked!")
+    }
+    
+    function handleOnMouseOver() {
+        console.log("MouseOver")
+    }
+    
+    return (
+        <div className="container">
+            <img 
+                src="https://picsum.photos/640/360" 
+                onMouseOver={handleOnMouseOver} 
+            />
+            <button onClick={handleClick}>Click me</button>
+        </div>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+const [things, setThings] = React.useState([]);
+  let url;
+  function addItem() {
+    const memesArray = memesData.data.memes;
+    const randomNumber = Math.floor(Math.random() * memesArray.length);
+    url = memesArray[randomNumber].url;
+    const newThingText = url;
+    // setThings((prevState) => [...prevState, newThingText]);  重复增加
+    setThings((prevState) => [newThingText]); //只增加一次
+  }
+
+  const thingsElements = things.map((thing) => (
+    <img key={thing} src={thing} className="img1" />
+  ));
+
+  return (
+        <button className="form--button" onClick={addItem}>Get a new meme image 🖼</button>
+      {thingsElements}
+  );
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+<Navbar darkMode={true} coverImage="some-image2" />   darkmode and lightmode ???
+
+Props: imutable
+State: will change the value
+-------------------------------------------------------------------------------------------------------------------------------
+states:
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+function APP(){
+     const [users, setUsers] = React.useState([]);
+     
+    function greeting(name) {
+    const date = new Date()
+    const hours = date.getHours()
+    let timeOfDay
+    if(hours >= 4 && hours < 12) {
+        timeOfDay = "morning"
+    } else if(hours >= 12 && hours < 17) {
+        timeOfDay = "afternoon"
+    } else if(hours >= 17 && hours < 20) {
+        timeOfDay = "evening"
+    } else {
+        timeOfDay = "night"
+    }
+    const newUser = `Good ${timeOfDay}, ${name}!`
+    setUsers((prevState) => [newUser]);
+}
+
+ const thingsElements = users.map((a) => (
+    <p>{a}</p>
+  ));
+
+return(
+    <div>
+    <button onClick={() => greeting("bob1")}> hi</button>
+    {thingsElements}
+    </div>
+);
+    }
+
+ReactDOM.render(<APP />, document.getElementById("root"))
+
+-------------------------------------------------------------------------------------------------------------------------------
+Quiz for state and props:
+
+1. How would you describe the concept of "state"?
+A way for React to remember saved values from within a component.
+This is similar to declaring variables from within a component,
+with a few added bonuses (which we'll get to later)
+
+
+2. When would you want to use props instead of state?
+Anytime you want to pass data into a component so that
+component can determine what will get displayed on the
+screen.
+
+
+3. When would you want to use state instead of props?
+Anytime you want a component to maintain some values from
+within the component. (And "remember" those values even
+when React re-renders the component).
+
+
+4. What does "immutable" mean? Are props immutable? Is state immutable?
+Unchanging. Props are immutable. State is mutable.
+-------------------------------------------------------------------------------------------------------------------------------
+React Hooks:
+1. useState()
+import React, {useState} from "react"     //or
+React.useState()
+
+destructure useState:
+const [isImportant,  setIsImportant] = React.useState("Yes")
+
+const [count, setCount] = React.useState(0)   
+function add() {
+    setCount(count + 1)     // equal to count++       
+    //这个地方最好用call back：setCount(preCount => preCount+1) or  setCount(function(oldValue) { return oldValue + 1 })   
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+State:
+
+import React from "react"
+export default function App() {
+    const result = React.useState("Yes")
+    console.log(result)
+    return (
+        <div className="state">
+            <h1 className="state--title">Is state important to know?</h1>
+            <div className="state--value">
+                <h1>{result[0]}</h1>
+            </div>
+        </div>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+state:
+
+import React from "react"
+
+export default function App() {
+    const [isImportant, setIsImportant] = React.useState("Yes")
+    function handleClick() {
+        setIsImportant("No")
+    }
+
+    return (
+        <div className="state">
+            <h1 className="state--title">Is state important to know?</h1>
+            <div className="state--value" onClick={handleClick}>
+                <h1>{isImportant}</h1>
+            </div>
+        </div>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+useState:
+
+import React from "react"
+
+export default function App() {
+    const [count, setCount] = React.useState(0)   
+    function add() {
+        setCount(count + 1)     // equal to count++       
+        //这个地方最好用call back：setCount(preCount => preCount+1) or  setCount(function(oldValue) { return oldValue + 1 })   
+    }
+    
+    function subtract() {
+        setCount(count - 1)
+    }
+    return (
+        <div className="counter">
+            <button className="counter--minus" onClick={subtract}>–</button>
+            <div className="counter--count">
+                <h1>{count}</h1>
+            </div>
+            <button className="counter--plus" onClick={add}>+</button>
+        </div>
+    )
+}
+
+
+css:
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #262626;
+    color: #D9D9D9;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.counter {
+    display: flex;
+    align-items: flex-end;
+}
+
+.counter > button {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-color: #737373;
+    color: #D9D9D9;
+    font-size: 1.5rem;
+}
+
+.counter > button:hover {
+    background-color: #404040;
+    color: #D9D9D9;
+}
+
+.counter > button:focus {
+    outline: none;
+}
+
+.counter--count {
+    background-color: white;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #262626;
+}
+
+.counter--plus {
+    margin-left: -20px;
+}
+
+.counter--minus {
+    margin-right: -20px;
+    z-index: 1;
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Quiz2: useState:
+
+1. You have 2 options for what you can pass in to a
+   state setter function (e.g. `setCount`). What are they?
+   
+a. New value of state (setCount(42))
+b. Callback function - whatever the callback function 
+   returns === new value of state
+
+
+2. When would you want to pass the first option (from answer
+   above) to the state setter function?
+Whenever you don't need the previous value of state to determine
+what the new value of state should be.
+
+
+3. When would you want to pass the second option (from answer
+   above) to the state setter function?
+Whenever you DO need the previous value to determine the new value
+
+-------------------------------------------------------------------------------------------------------------------------------
+useState: 用此方法，修改后自动更新
+export default function Meme() {
+    const [isImportant, setIsImportant] = React.useState("https://i.imgflip.com/30b1gx.jpg");
+    function getMemeImage() {
+        const memesArray = memesData.data.memes
+        const randomNumber = Math.floor(Math.random() * memesArray.length)
+        setIsImportant(memesArray[randomNumber].url)
+    }
+    return (
+                <button 
+                    className="form--button"
+                    onClick={getMemeImage}
+                >
+                    Get a new meme image 🖼
+                </button>
+            <img className="img2" src={isImportant}></img>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+ternary：
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+condition ? exprIfTrue : exprIfFalse
+
+let answer = isGoingOut === true ? "Yes" : "No"     /or below
+
+const isGoingOut = false                          /or below
+let answer = isGoingOut ? "Yes" : "No"
+
+const isGoingOut = false
+return (
+    <div className="state">
+        <h1 className="state--title">Do I feel like going out tonight?</h1>
+        <div className="state--value">
+            <h1>{isGoingOut ? "Yes" : "No"}</h1>
+        </div>
+    </div>
+)
+-------------------------------------------------------------------------------------------------------------------------------
+useState: 通过点击Yes/No 连续变化
+export default function App() {
+    const [isGoingOut,setIsGoingOut] = React.useState(true)
+    const [isGoing,setIsGoing] = React.useState("Yes")
+    function handleGoing(){
+        isGoingOut ? setIsGoing("No") : setIsGoing("Yes")
+        setIsGoingOut(!isGoingOut)
+    }
+    return (
+            <div className="state--value" onClick={handleGoing}>
+                <h1>{isGoing}</h1>
+            </div>
+    )
+}
+
+updated code:
+export default function App() {
+    const [isGoingOut, setIsGoingOut] = React.useState(true)
+    function changeMind() {
+        setIsGoingOut(prevState => !prevState)
+    }
+    return (
+            <div onClick={changeMind} className="state--value">
+                <h1>{isGoingOut ? "Yes" : "No"}</h1>
+            </div>)}
+-------------------------------------------------------------------------------------------------------------------------------
+useState: Add pages
+function App() {
+    const [thingsArray,setThingsArray] = React.useState(["Thing 1", "Thing 2"]) 
+    function addItem() {
+        setThingsArray(predata =>[...predata,`Thing ${predata.length + 1}`])
+    } 
+    const thingsElements = thingsArray.map(thing => <p key={thing}>{thing}</p>)
+    return (
+        <div>
+            <button onClick={addItem}>Add Item</button>
+            {thingsElements}
+        </div>
+    )
+}
+ReactDOM.render(<App />, document.getElementById('root'));
+-------------------------------------------------------------------------------------------------------------------------------
+useState + CSS : Card 
+export default function App() {
+    const [contact, setContact] = React.useState({
+        firstName: "John",
+        lastName: "Doe",
+        phone: "+1 (719) 555-1212",
+        email: "itsmyrealname@example.com",
+        isFavorite: true
+    })
+    
+    let starIcon = contact.isFavorite ? "star-filled.png" : "star-empty.png"
+    
+    function toggleFavorite() {
+        console.log("Toggle Favorite")
+    }
+    
+    return (
+        <main>
+            <article className="card">
+                <img src="./images/user.png" className="card--image" />
+                <div className="card--info">
+                    <img 
+                        src={`../images/${starIcon}`} 
+                        className="card--favorite"
+                        onClick={toggleFavorite}
+                    />
+                    <h2 className="card--name">
+                        {contact.firstName} {contact.lastName}
+                    </h2>
+                    <p className="card--contact">{contact.phone}</p>
+                    <p className="card--contact">{contact.email}</p>
+                </div>
+                
+            </article>
+        </main>
+    )
+}
+
+CSS:
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: whitesmoke;
+    margin: 0;
+    font-family: "Inter", sans-serif;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 200px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    height: 350px;
+    box-shadow: 5px 5px 5px 1px rgba(120,120,120,0.44);
+    -webkit-box-shadow: 5px 5px 5px 1px rgba(120,120,120,0.44);
+    -moz-box-shadow: 5px 5px 5px 1px rgba(120,120,120,0.44);
+}
+
+.card--image {
+    width: 100%;
+    padding: 10%;
+    padding-bottom: 0;
+}
+
+.card--name {
+    margin-block: 13px;
+    color: #333333;
+}
+
+.card--info {
+    padding: 10px;
+}
+
+.card--favorite {
+    width: 25px;
+    cursor: pointer;
+}
+
+.card--contact {
+    font-size: 0.75rem;
+    color: gray;
+    margin-block: 7px;
+}
+-------------------------------------------------------------------------------------------------------------------------------
+useState: only change part of it
+
+const [contact, setContact] = React.useState({
+    firstName: "John",
+    lastName: "Doe",
+    phone: "+1 (719) 555-1212",
+    email: "itsmyrealname@example.com",
+    isFavorite: true
+})
+
+function toggleFavorite() {
+    setContact(prevContact => {
+        return {
+            ...prevContact,                  //important
+            isFavorite: !prevContact.isFavorite //only change this one
+        }
+    })
+}
+
+or 
+setContact(prevContact => ({
+            ...prevContact,
+            isFavorite: !prevContact.isFavorite    //(include object) 
+        }))
+    
+-------------------------------------------------------------------------------------------------------------------------------
+react will automatically update when you change the components, it is wonderful
+
+APP.js
+import React from "react"
+import Count from "./Count"
+export default function App() {
+    const [count, setCount] = React.useState(0)
+    
+    function add() {
+        setCount(prevCount => prevCount + 1)
+    }
+    
+    function subtract() {
+        setCount(prevCount => prevCount - 1)
+    }
+    
+    console.log("App component rendered")
+    
+    return (
+        <div className="counter">
+            <button className="counter--minus" onClick={subtract}>–</button>
+            <Count number={count} />
+            <button className="counter--plus" onClick={add}>+</button>
+        </div>
+    )
+}
+
+Count.js
+import React from "react"
+export default function Count(props) {
+    console.log("Count component rendered")
+    
+    return (
+        <div className="counter--count">
+            <h1>{props.number}</h1>
+        </div>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Setting state from child components
+
+App.js (parent)
+import React from "react"
+import Star from "./Star"
+export default function App() {
+    const [contact, setContact] = React.useState({
+        firstName: "John",
+        lastName: "Doe",
+        phone: "+1 (719) 555-1212",
+        email: "itsmyrealname@example.com",
+        isFavorite: true
+    })
+    function toggleFavorite() {
+        setContact(prevContact => ({
+            ...prevContact,
+            isFavorite: !prevContact.isFavorite
+        }))
+    }  
+    return (
+        <main>
+            <article className="card">
+                <img src="./images/user.png" className="card--image" />
+                <div className="card--info">
+                    <Star isFilled={contact.isFavorite} handleClick={toggleFavorite} />
+                    <h2 className="card--name">
+                        {contact.firstName} {contact.lastName}
+                    </h2>
+                    <p className="card--contact">{contact.phone}</p>
+                    <p className="card--contact">{contact.email}</p>
+                </div>
+                
+            </article>
+        </main>
+    )
+}
+
+Star.js (Child)
+import React from "react"
+export default function Star(props) {
+    const starIcon = props.isFilled ? "star-filled.png" : "star-empty.png"
+    return (
+        <img 
+            src={`../images/${starIcon}`} 
+            className="card--favorite"
+            onClick={props.handleClick}
+        />
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Passing data to components: sibling can't pass data, we have to move data to parent, then sibling can share the data
+
+App.js Parent:
+import React from "react"
+import Header from "./Header"
+import Body from "./Body"
+export default function App() {
+    const [user, setUser] = React.useState("Joe1")
+    return (
+        <main>
+            <Header name={user}/>
+            <Body name={user}/>
+        </main>
+    )
+}
+
+Header.js Child1:
+import React from "react"
+export default function Header(props) {
+    return (
+        <header>
+            <p>Current user: {props.name}</p>
+        </header>
+    )
+}
+
+Body.js   Child2:
+import React from "react"
+export default function Body(props) {
+    return (
+        <section>
+            <h1>Welcome back, {props.name}!</h1>
+        </section>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Dynamic Styles:
+
+index.js
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
+ReactDOM.render(<App darkMode={false} />, document.getElementById("root"))
+
+App.js
+import React from "react"
+import boxes from "./boxes"
+export default function App(props) {
+    const [squares, setSquares] = React.useState(boxes) 
+    const styles = {
+        backgroundColor: props.darkMode ? "#222222" : "#cccccc"
+    }  
+    const squareElements = squares.map(square => (
+        <div style={styles} className="box" key={square.id}></div>       //it is important here, we can use {{backgroundColor: props.darkMode ? "#222222" : "#cccccc"}} too
+    ))
+    return (
+        <main>
+            {squareElements}
+        </main>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+import React from "react"
+import boxes from "./boxes"
+import Box from "./Box"
+export default function App() {
+    const [squares, setSquares] = React.useState(boxes)
+    const squareElements = squares.map(square => (
+        <Box key={square.id} on={square.on} />      //have to include key, or err, but can't have onClick listeners, it won't work. but onclike works in div,h1...begin with lower words
+    ))   
+    return (
+        <main>
+            {squareElements}
+        </main>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Boxes Change: it is too complicate, we have to state at app.js and box.js
+App.js
+import React from "react"
+import boxes from "./boxes"
+import Box from "./Box"
+export default function App() {
+    const [squares, setSquares] = React.useState(boxes)
+    const squareElements = squares.map(square => (
+        <Box key={square.id} on={square.on} />
+    ))
+    return (
+        <main>
+            {squareElements}
+        </main>
+    )
+}
+
+Box.js
+import React from "react"
+export default function Box(props) {
+    const [on, setOn] = React.useState(props.on)
+    const styles = {
+        backgroundColor: on ? "#222222" : "transparent"
+    }
+    function toggle() {
+        setOn(prevOn => !prevOn)
+    }
+    return (
+        <div style={styles} className="box" onClick={toggle}></div>
+    )
+}
+
+CSS:
+.box {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+    display: inline-block;
+    margin-right: 4px;
+    border-radius: 5px;
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Derived State:
+https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+
+Boxes Change: we only use one state to do it
+App.js
+import React from "react"
+import boxes from "./boxes"
+import Box from "./Box"
+export default function App() {
+    const [squares, setSquares] = React.useState(boxes)
+    function toggle(id) {
+        console.log(id)                //important
+    }
+    const squareElements = squares.map(square => (
+        <Box 
+            key={square.id} 
+            id={square.id}           //important
+            on={square.on} 
+            toggle={toggle}          //important
+        />
+    ))
+    return (
+        <main>
+            {squareElements}
+        </main>
+    )
+}
+
+Box.js
+import React from "react"
+export default function Box(props) {
+    const styles = {
+        backgroundColor: props.on ? "#222222" : "transparent"
+    }
+    return (
+        <div 
+            style={styles} 
+            className="box"
+            onClick={()=>props.toggle(props.id)}     //important, only this way, we can pass parameter
+        >
+        </div>
+    )
+}
+
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+
 
 
 

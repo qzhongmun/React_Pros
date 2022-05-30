@@ -467,6 +467,15 @@ git commit -m 'your message'
 git push 
 
 
+git remote -v
+git branch
+git add .
+git commit -m "new commit"
+git push origin master
+git remote -v
+git remote origin set-url https://github.com/qzhongmun/React_Pros.git
+git remote set-url origin https://github.com/qzhongmun/React_Pros.git
+git push origin master
 -------------------------------------------------------------------------------------------------------------------------------
 2. Data driven React:
 props

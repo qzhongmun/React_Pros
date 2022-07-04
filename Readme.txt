@@ -1473,16 +1473,616 @@ export default function Box(props) {
 }
 
 -------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------------------------------------------------------------------
+function toggle(id) {
+    setSquares((prevSquares) => {
+      return prevSquares.map((square) => {
+        return square.id === id ? { ...square, on: !square.on } : square;
+      });
+    });
+  }
 
 
+-------------------------------------------------------------------------------------------------------------------------------
+{isShown && <p>{props.punchline}</p>}     //true then show <p>, false then not
+
+messages.length === 0 ?
+<h1>You're all caught up!</h1> :
+<h1>You have {messages.length} unread 
+{messages.length > 1 ? "messages" : "message"}</h1>
+-------------------------------------------------------------------------------------------------------------------------------
+quiz:
+1. What is "conditional rendering"?
+When we want to only sometimes display something on the page
+based on a condition of some sort
+
+
+2. When would you use &&?
+When you want to either display something or NOT display it
+
+
+3. When would you use a ternary?
+When you need to decide which thing among 2 options to display
+
+
+4. What if you need to decide between > 2 options on
+   what to display?
+Use an `if...else if... else` conditional or a `switch` statement
+
+
+function App() {
+    let someVar
+    if () {
+        someVar = <SomeJSX />
+    } else if() {
+        ...
+    } else {
+        ...
+    }
+    return (
+        <div>{someVar}</div>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Forms:
+Read first: https://reactjs.org/docs/forms.html
+
+const [firstName, setFirstName] = React.useState("")
+console.log(firstName)
+function handleChange(event) {
+    setFirstName(event.target.value)
+}
+return (
+        <form>
+            <input
+                type="text"
+                placeholder="First Name"
+                onChange={handleChange}
+            />
+        </form>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Form:
+
+export default function Form() {
+    const [firstName, setFirstName] = React.useState("")
+    const [lastName, setLastName] = React.useState("")
+    /**
+     * Challenge: Track the applicant's last name as well
+     */
+    
+    console.log(firstName, lastName)
+    
+    function handleFirstNameChange(event) {
+        setFirstName(event.target.value)
+    }
+    
+    function handleLastNameChange(event) {
+        setLastName(event.target.value)
+    }
+    return (
+        <form>
+            <input
+                type="text"
+                placeholder="First Name"
+                onChange={handleFirstNameChange}
+            />
+            <input
+                type="text"
+                placeholder="Last Name"
+                onChange={handleLastNameChange}
+            />
+        </form>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+Terminal: find data
+document.querySelector('input[name="developer-type"]:checked').value
+
+1.
+<input type="text" id="first-name" name="firstName" class="input" data-com.bitwarden.browser.user-edited="yes">
+document.getElementsByName('firstName')
+document.getElementsByName('firstName').forEach(text => {
+    console.log(text.value);
+});
+
+2.
+<form method="POST" id="my-form"><label for="first-name">First Name: </label><input type="text" id="first-name" name="firstName" class="input" data-com.bitwarden.browser.user-edited="yes"><br><label for="last-name">Last Name: </label><input type="text" id="last-name" name="lastName" class="input" data-com.bitwarden.browser.user-edited="yes"><br><input type="submit" value="Submit"></form>
+document.getElementById('my-form') 
+document.getElementById('my-form').elements
+A=document.getElementById('my-form').elements
+console.log(A.firstName.value)
+console.log(A.lastName.value)
+-------------------------------------------------------------------------------------------------------------------------------
+Form simplify: 
+
+ const [Name, setName] = React.useState({ firstName: "", lastName: "" });
+  console.log(Name);
+  function handleChange(event) {
+    setName((preName) => {
+      return {
+        ...preName,
+        [event.target.name]: event.target.value,
+      };
+    });
+  }
+
+  return (
+    <main>
+      <form method="POST" id="my-form">
+        <label for="first-name">First Name: </label>
+        <input
+          type="text"
+          id="first-name"
+          name="firstName"
+          class="input"
+          onChange={handleChange}
+        />
+        <br />
+        <label for="last-name">Last Name: </label>
+        <input
+          type="text"
+          id="last-name"
+          name="lastName"
+          class="input"
+          onChange={handleChange}
+        />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+      <script src="index.pack.js"></script>
+    </main>
+  );
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Form Controlled components:
+https://reactjs.org/docs/forms.html#controlled-components
+
+Checkbox:
+<br />
+<input type="checkbox" id="isFriendly" />
+<label htmlFor="isFriendly">Are you friendly?</label>
+<br />
+
+import React from "react"
+
+export default function Form() {
+    const [formData, setFormData] = React.useState(
+        {
+            firstName: "", 
+            lastName: "", 
+            email: "", 
+            comments: "", 
+            isFriendly: true
+        }
+    )
+    
+    function handleChange(event) {
+        const {name, value, type, checked} = event.target
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: type === "checkbox" ? checked : value      //important
+            }
+        })
+    }
+    
+    return (
+        <form>
+            <input 
+                type="checkbox" 
+                id="isFriendly" 
+                checked={formData.isFriendly}
+                onChange={handleChange}
+                name="isFriendly"
+            />
+            <label htmlFor="isFriendly">Are you friendly?</label>
+            <br />
+        </form>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Radio Button:
+import React from "react"
+
+export default function Form() {
+    const [formData, setFormData] = React.useState(
+        {
+            firstName: "", 
+            lastName: "", 
+            email: "", 
+            comments: "", 
+            isFriendly: true,
+            employment: ""
+        }
+    )
+    console.log(formData.employment)
+    
+    function handleChange(event) {
+        const {name, value, type, checked} = event.target
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: type === "checkbox" ? checked : value
+            }
+        })
+    }
+    
+    return (
+        <form>
+            <fieldset>
+                <legend>Current employment status</legend>
+                
+                <input 
+                    type="radio"
+                    id="unemployed"
+                    name="employment"
+                    value="unemployed"
+                    checked={formData.employment === "unemployed"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="unemployed">Unemployed</label>
+                <br />
+                
+                <input 
+                    type="radio"
+                    id="part-time"
+                    name="employment"
+                    value="part-time"
+                    checked={formData.employment === "part-time"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="part-time">Part-time</label>
+                <br />
+                
+                <input 
+                    type="radio"
+                    id="full-time"
+                    name="employment"
+                    value="full-time"
+                    checked={formData.employment === "full-time"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="full-time">Full-time</label>
+                <br />
+                
+            </fieldset>
+        </form>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Select & Option:
+import React from "react"
+
+export default function Form() {
+    const [formData, setFormData] = React.useState(
+        {
+            firstName: "", 
+            lastName: "", 
+            email: "", 
+            comments: "", 
+            isFriendly: true,
+            employment: "",
+            favColor: ""
+        }
+    )
+    console.log(formData.favColor)
+    
+    function handleChange(event) {
+        console.log(event)
+        const {name, value, type, checked} = event.target
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: type === "checkbox" ? checked : value
+            }
+        })
+    }
+    
+    return (
+        <form> 
+            <label htmlFor="favColor">What is your favorite color?</label>
+            <br />
+            <select 
+                id="favColor"
+                value={formData.favColor}
+                onChange={handleChange}
+                name="favColor"
+            >
+                <option value="">-- Choose --</option>
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="indigo">Indigo</option>
+                <option value="violet">Violet</option>
+            </select>
+        </form>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Button:
+
+<button>Submit</button>  or
+<input type="submit" value="Submit" />
+-------------------------------------------------------------------------------------------------------------------------------
+submit the form:
+
+import React from "react"
+
+export default function Form() {
+    const [formData, setFormData] = React.useState(
+        {
+            firstName: "", 
+            lastName: "", 
+            email: "", 
+            comments: "", 
+            isFriendly: true,
+            employment: "",
+            favColor: ""
+        }
+    )
+    
+    function handleChange(event) {
+        const {name, value, type, checked} = event.target           //{} is important
+        setFormData(prevFormData => {
+            return {
+                ...prevFormData,
+                [name]: type === "checkbox" ? checked : value
+            }
+        })
+    }
+    
+    function handleSubmit(event) {
+        event.preventDefault()       //important: prevent default render
+        // submitToApi(formData)
+        console.log(formData)
+    }
+    
+    return (
+        <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                placeholder="First Name"
+                onChange={handleChange}
+                name="firstName"
+                value={formData.firstName}
+            />
+            <input
+                type="text"
+                placeholder="Last Name"
+                onChange={handleChange}
+                name="lastName"
+                value={formData.lastName}
+            />
+            <input
+                type="email"
+                placeholder="Email"
+                onChange={handleChange}
+                name="email"
+                value={formData.email}
+            />
+            <textarea 
+                value={formData.comments}
+                placeholder="Comments"
+                onChange={handleChange}
+                name="comments"
+            />
+            <input 
+                type="checkbox" 
+                id="isFriendly" 
+                checked={formData.isFriendly}
+                onChange={handleChange}
+                name="isFriendly"
+            />
+            <label htmlFor="isFriendly">Are you friendly?</label>
+            <br />
+            <br />
+            
+            <fieldset>
+                <legend>Current employment status</legend>
+                <input 
+                    type="radio"
+                    id="unemployed"
+                    name="employment"
+                    value="unemployed"
+                    checked={formData.employment === "unemployed"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="unemployed">Unemployed</label>
+                <br />
+                
+                <input 
+                    type="radio"
+                    id="part-time"
+                    name="employment"
+                    value="part-time"
+                    checked={formData.employment === "part-time"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="part-time">Part-time</label>
+                <br />
+                
+                <input 
+                    type="radio"
+                    id="full-time"
+                    name="employment"
+                    value="full-time"
+                    checked={formData.employment === "full-time"}
+                    onChange={handleChange}
+                />
+                <label htmlFor="full-time">Full-time</label>
+                <br />
+            </fieldset>
+            <br />
+            
+            <label htmlFor="favColor">What is your favorite color?</label>
+            <br />
+            <select 
+                id="favColor" 
+                value={formData.favColor}
+                onChange={handleChange}
+                name="favColor"
+            >
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="indigo">Indigo</option>
+                <option value="violet">Violet</option>
+            </select>
+            <br />
+            <br />
+            <button>Submit</button>
+        </form>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+Quize:
+
+1. In a vanilla JS app, at what point in the form submission
+   process do you gather all the data from the filled-out form?
+Right before the form is submitted.
+
+
+2. In a React app, when do you gather all the data from
+   the filled-out form?
+As the form is being filled out. The data is all held in local state.
+
+
+3. Which attribute in the form elements (value, name, onChange, etc.)
+   should match the property name being held in state for that input?
+`name` property.
+
+
+4. What's different about saving the data from a checkbox element
+   vs. other form elements?
+A checkbox uses the `checked` property to determine what should
+be saved in state. Other form elements use the `value` property instead.
+
+
+5. How do you watch for a form submit? How can you trigger
+   a form submit?
+- Can watch for the submit with an onSubmit handler on the `form` element.
+- Can trigger the form submit with a button click.
+-------------------------------------------------------------------------------------------------------------------------------
+submit form practice:
+
+import React from "react"
+
+export default function App() {
+    const [formData, setFormData] = React.useState({
+        email: "",
+        password: "",
+        passwordConfirm: "",
+        joinedNewsletter: true
+    })
+    
+    /**
+     * Challenge: Connect the form to local state
+     * 
+     * 1. Create a state object to store the 4 values we need to save.
+     * 2. Create a single handleChange function that can
+     *    manage the state of all the inputs and set it up
+     *    correctly
+     * 3. When the user clicks "Sign up", check if the 
+     *    password & confirmation match each other. If
+     *    so, log "Successfully signed up" to the console.
+     *    If not, log "passwords do not match" to the console.
+     * 4. Also when submitting the form, if the person checked
+     *    the "newsletter" checkbox, log "Thanks for signing
+     *    up for our newsletter!" to the console.
+     */
+    
+    function handleChange(event) {
+        const {name, value, type, checked} = event.target
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: type === "checkbox" ? checked : value
+        }))
+    }
+    
+    function handleSubmit(event) {
+        event.preventDefault()
+        if(formData.password === formData.passwordConfirm) {
+            console.log("Successfully signed up")
+        } else {
+            console.log("Passwords do not match")
+            return                                                // important, I am easy to miss this part
+        }
+        
+        if(formData.joinedNewsletter) {
+            console.log("Thanks for signing up for our newsletter!")
+        }
+    }
+    
+    return (
+        <div className="form-container">
+            <form className="form" onSubmit={handleSubmit}>
+                <input 
+                    type="email" 
+                    placeholder="Email address"
+                    className="form--input"
+                    name="email"
+                    onChange={handleChange}
+                    value={formData.email}
+                />
+                <input 
+                    type="password" 
+                    placeholder="Password"
+                    className="form--input"
+                    name="password"
+                    onChange={handleChange}
+                    value={formData.password}
+                />
+                <input 
+                    type="password" 
+                    placeholder="Confirm password"
+                    className="form--input"
+                    name="passwordConfirm"
+                    onChange={handleChange}
+                    value={formData.passwordConfirm}
+                />
+                
+                <div className="form--marketing">
+                    <input
+                        id="okayToEmail"
+                        type="checkbox"
+                        name="joinedNewsletter"
+                        onChange={handleChange}
+                        checked={formData.joinedNewsletter}
+                    />
+                    <label htmlFor="okayToEmail">I want to join the newsletter</label>
+                </div>
+                <button 
+                    className="form--submit"
+                >
+                    Sign up
+                </button>
+            </form>
+        </div>
+    )
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 
 
 

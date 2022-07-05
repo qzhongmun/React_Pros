@@ -2230,9 +2230,155 @@ export default function App() {
 }
 
 -------------------------------------------------------------------------------------------------------------------------------
+Meme useEffect:
+import React from "react"
+
+export default function Meme() {
+    const [meme, setMeme] = React.useState({
+        topText: "",
+        bottomText: "",
+        randomImage: "http://i.imgflip.com/1bij.jpg" 
+    })
+    const [allMemes, setAllMemes] = React.useState([])
+    
+    React.useEffect(() => {
+        fetch("https://api.imgflip.com/get_memes")
+            .then(res => res.json())
+            .then(data => setAllMemes(data.data.memes))               //important
+    }, [])
+    
+    function getMemeImage() {
+        const randomNumber = Math.floor(Math.random() * allMemes.length)
+        const url = allMemes[randomNumber].url
+        setMeme(prevMeme => ({
+            ...prevMeme,
+            randomImage: url
+        }))
+        
+    }
+    
+    function handleChange(event) {
+        const {name, value} = event.target
+        setMeme(prevMeme => ({
+            ...prevMeme,
+            [name]: value
+        }))
+    }
+    
+    return (
+        <main>
+            <div className="form">
+                <input 
+                    type="text"
+                    placeholder="Top text"
+                    className="form--input"
+                    name="topText"
+                    value={meme.topText}
+                    onChange={handleChange}
+                />
+                <input 
+                    type="text"
+                    placeholder="Bottom text"
+                    className="form--input"
+                    name="bottomText"
+                    value={meme.bottomText}
+                    onChange={handleChange}
+                />
+                <button 
+                    className="form--button"
+                    onClick={getMemeImage}
+                >
+                    Get a new meme image 🖼
+                </button>
+            </div>
+            <div className="meme">
+                <img src={meme.randomImage} className="meme--image" />
+                <h2 className="meme--text top">{meme.topText}</h2>
+                <h2 className="meme--text bottom">{meme.bottomText}</h2>
+            </div>
+        </main>
+    )
+}
+-------------------------------------------------------------------------------------------------------------------------------
+import React from "react"
+import WindowTracker from "./WindowTracker"
+
+export default function App() {
+    /**
+     * Challenge:
+     * 1. Create state called `show`, default to `true`
+     * 2. When the button is clicked, toggle `show`
+     * 3. Only display `<WindowTracker>` if `show` is `true`
+     */
+    
+    const [show, setShow] = React.useState(true)
+    
+    function toggle() {
+        setShow(prevShow => !prevShow)
+    }
+    
+    return (
+        <div className="container">
+            <button onClick={toggle}>
+                Toggle WindowTracker
+            </button>
+            {show && <WindowTracker />}
+        </div>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+WindowTracker.js:
+
+import React from "react"
+export default function WindowTracker() {
+    const [windowWidth, setWindowWidth] = React.useState(window.innerWidth)
+    React.useEffect(() => {
+        window.addEventListener("resize", function() {
+            setWindowWidth(window.innerWidth)
+        })
+    }, [])
+    return (
+        <h1>Window width: {windowWidth}</h1>
+    )
+}
+
+App.js:
+
+import React from "react"
+import WindowTracker from "./WindowTracker"
+export default function App() {
+    /**
+     * Challenge:
+     * 1. Create state called `show`, default to `true`
+     * 2. When the button is clicked, toggle `show`
+     * 3. Only display `<WindowTracker>` if `show` is `true`
+     */
+    const [show, setShow] = React.useState(true)
+    function toggle() {
+        setShow(prevShow => !prevShow)
+    }
+    return (
+        <div className="container">
+            <button onClick={toggle}>
+                Toggle WindowTracker
+            </button>
+            {show && <WindowTracker />}             // important: this will lead memory leak, because even we don't display windowtracker, we still listen to resize
+        </div>
+    )
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+npx create-react-app@latest {project name}
+cd {project name}
+npm start
 -------------------------------------------------------------------------------------------------------------------------------
 Another Class:
 Layout Component:

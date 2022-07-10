@@ -465,6 +465,7 @@ git remote remove origin //delete existed .git
 git add .
 git commit -m 'your message'
 git push 
+git push origin master
 
 
 git remote -v
@@ -476,6 +477,12 @@ git remote -v
 git remote origin set-url https://github.com/qzhongmun/React_Pros.git
 git remote set-url origin https://github.com/qzhongmun/React_Pros.git
 git push origin master
+
+git init
+git clone url
+git add .
+git commit -m 'your message'
+git push 
 -------------------------------------------------------------------------------------------------------------------------------
 2. Data driven React:
 props
@@ -2369,16 +2376,230 @@ export default function App() {
 }
 
 -------------------------------------------------------------------------------------------------------------------------------
+useEffect: Add clear up:
+
+import React from "react"
+export default function WindowTracker() {  
+    const [windowWidth, setWindowWidth] = React.useState(window.innerWidth)
+    React.useEffect(() => {
+        function watchWidth() {
+            console.log("Setting up...")
+            setWindowWidth(window.innerWidth)
+        }
+        window.addEventListener("resize", watchWidth)
+        return function() {
+            console.log("Cleaning up...")
+            window.removeEventListener("resize", watchWidth)
+        }
+    }, [])
+    
+    return (
+        <h1>Window width: {windowWidth}</h1>
+    )
+}
+
 
 -------------------------------------------------------------------------------------------------------------------------------
+  useEffect async:
+   /**
+    useEffect takes a function as its parameter. If that function
+    returns something, it needs to be a cleanup function. Otherwise,
+    it should return nothing. If we make it an async function, it
+    automatically retuns a promise instead of a function or nothing.
+    Therefore, if you want to use async operations inside of useEffect,
+    you need to define the function separately inside of the callback
+    function, as seen below:
+    */
+    
+    React.useEffect(() => {
+        async function getMemes() {
+            const res = await fetch("https://api.imgflip.com/get_memes")
+            const data = await res.json()
+            setAllMemes(data.data.memes)
+        }
+        getMemes()
+    }, [])
+-------------------------------------------------------------------------------------------------------------------------------
+axios:
+
+componentDidMount(){
+      axios.get('http://localhost:4200/serverport')
+      .then(response => {
+        this.setState({ serverports: response.data });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    }
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+分界线
 -------------------------------------------------------------------------------------------------------------------------------
 npx create-react-app@latest {project name}
 cd {project name}
+npm i styled-components
+npm install axios
 npm start
+git add .
+git commit -m 'your message'
+git push 
+git push origin master
+-------------------------------------------------------------------------------------------------------------------------------
+styled-components:
+src/components/styles/Container.styled.js
+src/components/styles/Input.styled.js
+import styled from "styled-components";
+export const Input = styled.input`
+  width: 20px
+  background:green
+`;
+
+
+App.js:
+import { Container } from "./components/styles/Container.styled";
+import { Input } from "./components/styles/Input.styled";
+
+function App() {
+  return (
+    <div>
+      <Container>
+        <h1>Hello World</h1>
+      </Container>
+      <Input placeholder="input" />
+    </div>
+  );
+}
+export default App;
+
+-------------------------------------------------------------------------------------------------------------------------------
+LifeCycle:
+componentDidMount()：after all html finished, then start run
+componentWillMount(): before run(first run)
+
+import React, { Component } from 'react';
+class App extends Component {
+  constructor(props){                                 //  step 2
+    super(props);
+    this.state = {
+      data: 'Jordan Belfort'
+    }
+  }
+  componentWillMount(){                                //  step 1
+    console.log('First this called');
+  }
+
+  getData(){                                            //  step 5
+    setTimeout(() => {
+      console.log('Our data is fetched');
+      this.setState({
+        data: 'Hello WallStreet'
+      })
+    }, 1000)
+  }
+
+  componentDidMount(){                               //  step 4
+    this.getData();
+  }
+
+  render() {                               //  step 3
+    return(
+      <div>
+      {this.state.data}
+    </div>
+    )
+  }
+}
+
+export default App;
+-------------------------------------------------------------------------------------------------------------------------------
+json-server:
+npm install -g json-server
+
+creat db.json:
+{ "people": [{ "id": 0, "name": "Eva" }] }
+
+run:
+json-server db.json
+then we get a server start, when we operate date by rest-client, data will not save
+but if we input "s", will create a snapshot db-1657394053801.json with all data
+control c : close server
+-------------------------------------------------------------------------------------------------------------------------------
+rest-client: like postman, but can use in visual studio code
+have different environment, like guileon, test...
+https://www.youtube.com/watch?v=8uyTn4cg8Xc
+
+GET  http://localhost:3000/people              //Get data
+GET http://localhost:3000/people?q=Randy      //Get data query "Randy" include
+
+POST http://localhost:3000/people HTTP/1.1    //Add data
+content-type: application/json
+{
+    "id": "3",
+    "name": "john3"
+    
+}
+
+PUT http://localhost:3000/people/3 HTTP/1.1   //Change data
+content-type: application/json
+                                              //important: have to have this empty line
+{
+    "name": "john3change"
+}
+-------------------------------------------------------------------------------------------------------------------------------
+npm install faker lodash
+
+faker: is a JavaScript library that generates fake data for you. Whether 
+you need to bootstrap your database, create good-looking XML documents, 
+fill-in  your persistence to stress test it, or anonymize data taken from 
+a  production service, Faker is for you
+
+lodash:Lodash makes JavaScript easier by taking the hassle out of working with arrays, numbers, objects, strings, etc.
+Lodash’s modular methods are great for:
+Iterating arrays, objects, & strings
+Manipulating & testing values
+Creating composite functions
+
+lodash.times(100) performs a 100th time loop with n as the counter.
+
+create generate.js:
+module.exports = function () {
+  var faker = require("faker");
+  var _ = require("lodash");
+  return {
+    people: _.times(100, function (n) {
+      return {
+        id: n,
+        name: faker.name.findName(),
+        avatar: faker.internet.avatar(),
+      };
+    }),
+  };
+};
+
+run:
+json-server generate.js
+
+use RestClient get data:
+GET  http://localhost:3000/people         
+GET http://localhost:3000/people?q=Randy 
+
+-------------------------------------------------------------------------------------------------------------------------------
+list [] 才能用map display data
+
+ <button type="submit" onClick={() => window.location.reload(false)}> //important: click button refresh the page
+    Add
+</button>
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 Another Class:
 Layout Component:

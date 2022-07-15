@@ -1,0 +1,6 @@
+put http://localhost:4000/users/update/eva11 HTTP/1.1
+content-type: application/json
+
+{
+    "selection": true
+}

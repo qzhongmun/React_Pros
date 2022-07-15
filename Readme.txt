@@ -2432,6 +2432,22 @@ componentDidMount(){
       })
     }
 -------------------------------------------------------------------------------------------------------------------------------
+  const axios = require("axios");
+  const sendGetRequest = async () => {
+    try {
+      const resp = await axios
+        .get("http://localhost:4000/users")
+        .then((res) => {
+          setState((prev) => {
+            return { ...prev, usersCollection: res.data };
+          });
+        });
+    } catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+  sendGetRequest();
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
@@ -2530,6 +2546,10 @@ json-server db.json
 then we get a server start, when we operate date by rest-client, data will not save
 but if we input "s", will create a snapshot db-1657394053801.json with all data
 control c : close server
+
+run
+json-server -h
+to find help, like how to change port
 -------------------------------------------------------------------------------------------------------------------------------
 rest-client: like postman, but can use in visual studio code
 have different environment, like guileon, test...
@@ -2630,3 +2650,4 @@ npm install react-native-elements --legacy-peer-deps
 -------------------------------------------------------------------------------------------------------------------------
 element library: A Desktop UI Library
 Element, a Vue 2.0 based component library for developers, designers and product managers
+

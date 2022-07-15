@@ -690,6 +690,7 @@ for(let i = 0; i < someArray.length; i++) {
 }
 -------------------------------------------------------------------------------------------------------------------------------
 If picture can't display, put images file into public file, pictures will show
+ src={require("../images/react-icon-small.png")}
 -------------------------------------------------------------------------------------------------------------------------------
 Dynamic web app:
 Event listeners

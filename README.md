@@ -1,3 +1,17 @@
+## Start program
+
+```
+npx create-react-app@latest {project name}
+cd {project name}
+npm i styled-components
+npm install axios
+npm start
+git add .
+git commit -m 'your message'
+git push
+git push origin master
+```
+
 ## Test
 
 ### Skills

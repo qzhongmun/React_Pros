@@ -2450,6 +2450,65 @@ componentDidMount(){
   };
   sendGetRequest();
 -------------------------------------------------------------------------------------------------------------------------------
+react-mde 
+react-mde doesn't apply css
+import "react-mde/lib/styles/css/react-mde-all.css";
+
+localstorage:
+https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+
+  const [notes, setNotes] = React.useState( 
+    JSON.parse(localStorage.getItem("notes")) || []);       //get items
+
+  React.useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));    //add items
+  }, [notes]);
+
+
+const [state, setState] = React.useState(console.log("State initialization")) //important, will rerun this code when changes
+
+const [state, setState] = React.useState(
+    function() {                                          //important,will not rerun this code when changesm it is lazy state initialization
+        return console.log("State initialization")       
+    }
+)
+
+like:
+  const [notes, setNotes] = React.useState(
+    JSON.parse(localStorage.getItem("notes")) || [];              //rerun every time
+  });
+
+  const [notes, setNotes] = React.useState(() => {
+    return JSON.parse(localStorage.getItem("notes")) || [];   //only run once initialization
+  });
+
+split:
+{note.body.split("\n")[0].replace("# ", "")}
+-------------------------------------------------------------------------------------------------------------------------------
+move modified notes to the top of the lists:
+rearrange the note:
+
+  function updateNote(text) {
+    //rearrange the arry
+    setNotes((oldNotes) => {
+      var newarray = [];
+      for (let i = 0; i < oldNotes.length; i++) {
+        const oldNote = oldNotes[i];
+        oldNote.id === currentNoteId
+          ? newarray.unshift({ ...oldNote, body: text })
+          : newarray.push(oldNote);
+      }
+      console.log(notes);
+      return newarray;
+    });
+-------------------------------------------------------------------------------------------------------------------------------
+add event to react:
+onClick={(event) => props.deleteNote(event, note.id)}   //important, call back function
+
+setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId)) // important: filer, only return true value in array
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------

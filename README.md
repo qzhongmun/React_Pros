@@ -55,3 +55,39 @@ db.users.find()
 #delete all documents
 db.users.deleteMany({})
 ```
+
+### Webpack
+
+```
+npm init -y    // -y means skip all questions
+npm i -D webpack webpack-cli   //-D means development dependencies
+
+package.json
+"script":{
+    "build":"webpack --mode production"
+}
+
+npm run build
+
+npm i uuid
+//change part of code
+npm run build
+npm remove uuid
+//change part of code
+npm run build
+
+/create and edit webpack.config.js
+npm run build
+
+npm i -D sass style-loader css-loader sass-loader
+npm i -D html-webpack-plugin
+
+.container
+<div class="container"></div>
+#joke.joke
+<div id="joke" class="joke"></div>
+button#jokeBtn.btn
+<button id="jokeBtn" class="btn"></button>
+
+
+```

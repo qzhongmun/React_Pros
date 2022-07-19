@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  width: 35.84px;
+  height: 35.84px;
+  border: 1px solid black;
+  display: inline-block;
+  margin-right: 4px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100px;
+
+  font-family: "Karla";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20.5889px;
+  line-height: 35.84px;
+  text-align: center;
+
+  color: #2b283a;
+}

@@ -65,6 +65,18 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
   align-items: center;
 }
 
+.box {
+  height: 100px;              //important     number inside this box will center horizontally and vertically
+  width: 100px;
+  border: 1px solid black;
+  display: inline-block;
+  margin-right: 4px;
+  border-radius: 5px;
+  text-align: center;          //important
+  vertical-align: middle;     //important
+  line-height: 100px;          //important
+}
+
 height: 100px;
 width: 100px;
 border: 1px solid black;    //square shape
@@ -2481,6 +2493,36 @@ like:
   const [notes, setNotes] = React.useState(() => {
     return JSON.parse(localStorage.getItem("notes")) || [];   //only run once initialization
   });
+
+Storage data2:
+
+meme.js
+export default {
+  success: true,
+  data: {
+    memes: [
+      {
+        id: "181913649",
+        name: "Drake Hotline Bling",
+        url: "https://i.imgflip.com/30b1gx.jpg",
+        width: 1200,
+        height: 1200,
+        box_count: 2,
+      },
+      {
+        id: "87743020",
+        name: "Two Buttons",
+        url: "https://i.imgflip.com/1g8my4.jpg",
+        width: 600,
+        height: 908,
+        box_count: 3,
+  }
+      },
+    ],
+  },
+};
+
+
 
 split:
 {note.body.split("\n")[0].replace("# ", "")}

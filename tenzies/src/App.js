@@ -2,9 +2,8 @@ import "./App.css";
 // import data from "./components/data";
 import React from "react";
 import Box from "./components/box";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Div } from "./components/styles/Div.styled";
-import { Container } from "./components/styles/Container.styled";
 import { P } from "./components/styles/P.styled";
 import { H1 } from "./components/styles/H1.styled";
 import { Button } from "./components/styles/Button.styled";
@@ -12,6 +11,7 @@ import { Button } from "./components/styles/Button.styled";
 function App() {
   const [boxs, setBoxs] = useState(generateData());
   const [flag, setFlag] = useState(0);
+  const [buttonflag, setButtonflag] = useState(false);
 
   // useEffect(() => {
   //   let boxs = generateData();
@@ -57,24 +57,28 @@ function App() {
   ));
 
   function handleClick() {
-    setBoxs((oldNotes) => {
-      var newarray = [];
-      for (let i = 0; i < oldNotes.length; i++) {
-        const oldNote = oldNotes[i];
-        const boxvalue = oldNote.value;
-        oldNote.type
-          ? newarray.push({ ...oldNote, value: getRandomInt() })
-          : newarray.push(oldNote);
-      }
-      return newarray;
-    });
+    if (buttonflag) {
+      window.location.reload(false);
+    } else {
+      setBoxs((oldNotes) => {
+        var newarray = [];
+        for (let i = 0; i < oldNotes.length; i++) {
+          const oldNote = oldNotes[i];
+          oldNote.type
+            ? newarray.push({ ...oldNote, value: getRandomInt() })
+            : newarray.push(oldNote);
+        }
+        return newarray;
+      });
 
-    let anotherArray = boxs.filter((box) => box.type);
-    let thirdArray = boxs.filter((box) => box.value == flag);
-    if (anotherArray.length === 0 && thirdArray.length === 10) {
-      console.log("success");
-    } else if (thirdArray.length === 10) {
-      console.log("not success");
+      let anotherArray = boxs.filter((box) => box.type);
+      let thirdArray = boxs.filter((box) => box.value === flag);
+      if (anotherArray.length === 0 && thirdArray.length === 10) {
+        console.log("success");
+        setButtonflag(true);
+      } else if (thirdArray.length === 10) {
+        console.log("not success");
+      }
     }
   }
 
@@ -85,11 +89,11 @@ function App() {
         Roll until all dice are the same. Click each die to freeze it at its
         current value between rolls.
       </P>
-      <Container>
-        <div>{squareElements}</div>
-      </Container>
+      <div>{squareElements}</div>
       <br />
-      <Button onClick={handleClick}>Roll</Button>
+      <Button onClick={handleClick}>
+        {buttonflag ? "Reset Game" : "Roll"}
+      </Button>
     </Div>
   );
 }

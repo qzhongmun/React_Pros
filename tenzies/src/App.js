@@ -4,6 +4,7 @@ import React from "react";
 import Box from "./components/box";
 import { useState } from "react";
 import { Div } from "./components/styles/Div.styled";
+import { Main } from "./components/styles/Main.styled";
 import { P } from "./components/styles/P.styled";
 import { H1 } from "./components/styles/H1.styled";
 import { Button } from "./components/styles/Button.styled";
@@ -83,18 +84,19 @@ function App() {
   }
 
   return (
-    <Div>
-      <H1>Tenzies</H1>
-      <P>
-        Roll until all dice are the same. Click each die to freeze it at its
-        current value between rolls.
-      </P>
-      <div>{squareElements}</div>
-      <br />
-      <Button onClick={handleClick}>
-        {buttonflag ? "Reset Game" : "Roll"}
-      </Button>
-    </Div>
+    <Main>
+      <Div>
+        <H1>Tenzies</H1>
+        <P>Roll until all dice are the same. Click</P>
+        <P>each die to freeze it at its current value</P>
+        <P>between rolls.</P>
+        <div className="mulbutton">{squareElements}</div>
+        <br />
+        <Button onClick={handleClick}>
+          {buttonflag ? "Reset Game" : "Roll"}
+        </Button>
+      </Div>
+    </Main>
   );
 }
 

@@ -65,6 +65,31 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/::marker  maker 修改
   align-items: center;
 }
 
+text-align: center;
+vertical-align: middle;
+line-height: 90px;                //水平 垂直居中 最新，line-height于所在div高度一致
+
+* {
+  box-sizing: border-box;             //1
+}
+
+body {
+  margin: 0;
+  background-color: #0b2434;              //2 , html automatically have body elements   important       
+  padding: 20px;
+}
+
+export const Main = styled.div`            //3: 1-3 shows two box, one inside another one
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  height: 90vh;
+  text-align: center;
+`;
+
+grid:
+display: grid;
+grid-template: auto auto / repeat(5, 1fr); or  grid-template-columns: auto auto auto auto auto;  //important
+
 .box {
   height: 100px;              //important     number inside this box will center horizontally and vertically
   width: 100px;

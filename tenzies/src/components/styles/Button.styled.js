@@ -12,6 +12,5 @@ export const Button = styled.button`
   font-size: 16.384px;
   color: #ffffff;
   padding: 9px 23px;
-
-
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;

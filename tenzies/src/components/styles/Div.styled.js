@@ -1,7 +1,3 @@
 import styled from "styled-components";
 
-export const Div = styled.div`
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-`;
+export const Div = styled.div``;

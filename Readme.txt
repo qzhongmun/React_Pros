@@ -20,6 +20,10 @@ cd {project name}
 npm start
 -------------------------------------------------------------------------------------------------------------------------------
 CSS:
+framework:
+https://nextjs.org/
+https://www.gatsbyjs.com/
+
 padding: 30px 25px;   top-bottom:30px, left-right padding:25px    这个不能用在主页面上，要不布局不齐
 justify-content: space-between;
 align-items: center;
@@ -85,6 +89,13 @@ export const Main = styled.div`            //3: 1-3 shows two box, one inside an
   height: 90vh;
   text-align: center;
 `;
+
+main {
+    display: flex;
+    flex-direction: column;     //column 垂直居中从上到下column间间距小
+    justify-content: center;
+    align-items: center;
+}
 
 grid:
 display: grid;
@@ -477,6 +488,15 @@ Free fonts style:
 https://fonts.google.com/
 CSS style:
 https://developer.mozilla.org/en-US/docs/Web/CSS/::marker
+
+how to change font in css:
+body{
+    font-family: "Karla", sans-serif;     //1
+}
+
+.div{
+    font-family: "Karla", sans-serif;      //2    1+2 done
+}
 -------------------------------------------------------------------------------------------------------------------------------
 start a new program app2
 npx create-react-app@latest app2
@@ -918,6 +938,17 @@ function add() {
     //这个地方最好用call back：setCount(preCount => preCount+1) or  setCount(function(oldValue) { return oldValue + 1 })   
 }
 
+1.     setBoxs((oldNotes) =>
+        oldNotes.map((oldNote) => {
+          return oldNote.type ? { ...oldNote, value: getRandomInt() } : oldNote;     //1 simple
+        })
+      );
+
+2.      setBoxs((oldNotes) => {
+        return oldNotes.map((oldNote) => {
+          return oldNote.type ? { ...oldNote, value: getRandomInt() } : oldNote;      //2 complex  1 and 2 are same function
+        });
+      });
 -------------------------------------------------------------------------------------------------------------------------------
 State:
 
@@ -2573,8 +2604,23 @@ add event to react:
 onClick={(event) => props.deleteNote(event, note.id)}   //important, call back function
 
 setNotes(oldNotes => oldNotes.filter(note => note.id !== noteId)) // important: filer, only return true value in array
+
+random generate number from 1-9:
+Math.ceil(Math.random() * 9);  //ceil means start from 1, include 1
+
 -------------------------------------------------------------------------------------------------------------------------------
+every():
+const allHeld = dice.every(die => die.isHeld)    //if one is false, return false; only if all true then return true
+const firstValue = dice[0].value
+const allSameValue = dice.every(die => die.value === firstValue)
+if (allHeld && allSameValue) {
+    setTenzies(true)
+    console.log("You won!")
+}
 -------------------------------------------------------------------------------------------------------------------------------
+https://github.com/alampros/react-confetti#readme
+congradulation effect:
+
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Box(props) {
   const styles = {
-    backgroundColor: props.type ? "transparent" : "green",
+    backgroundColor: props.type ? "white" : "green",
   };
   return (
     <div
